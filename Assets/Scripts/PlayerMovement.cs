@@ -14,33 +14,40 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject target;
 
+    private Rigidbody rb;
+
     private void Start()
     {
-
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
         FaceDirection();
         MoveToPoint();
+
+        if (!Input.anyKey)
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
 
     void FaceDirection()
     {
 
-        if (Input.GetAxis("Vertical") > 0)
+        if (Input.GetAxisRaw("Vertical") > 0)
         {
             directionFacing = 0;
         }
-        else if (Input.GetAxis("Vertical") < 0)
+        else if (Input.GetAxisRaw("Vertical") < 0)
         {
             directionFacing = 1;
         }
-        else if (Input.GetAxis("Horizontal") > 0)
+        else if (Input.GetAxisRaw("Horizontal") > 0)
         {
             directionFacing = 2;
         }
-        else if (Input.GetAxis("Horizontal") < 0)
+        else if (Input.GetAxisRaw("Horizontal") < 0)
         {
             directionFacing = 3;
         }
@@ -64,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
 
     void MoveToPoint()
     {
-        if (Input.anyKey)
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
         }
