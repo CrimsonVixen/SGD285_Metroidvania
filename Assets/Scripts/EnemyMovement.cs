@@ -32,8 +32,6 @@ public class EnemyMovement : MonoBehaviour
         if (Time.time < searchTime + 3f)
         {
             print("searching");
-            print("time = " + Time.time);
-            print("searchTime = " + searchTime);
             SearchForPlayer();
         }
         else agent.destination = transform.position;

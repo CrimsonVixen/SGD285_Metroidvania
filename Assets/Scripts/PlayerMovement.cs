@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    int directionFacing = 0;
+    int _directionFacing = 0;
     /*0 = North,
      *1 = South,
      *2 = East,
      *3 = West,*/
+
+    public int directionFacing
+    {
+        get
+        {
+            return _directionFacing;
+        }
+    }
 
     public float speed;
 
@@ -37,22 +45,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetAxisRaw("Vertical") > 0)
         {
-            directionFacing = 0;
+            _directionFacing = 0;
         }
         else if (Input.GetAxisRaw("Vertical") < 0)
         {
-            directionFacing = 1;
+            _directionFacing = 1;
         }
         else if (Input.GetAxisRaw("Horizontal") > 0)
         {
-            directionFacing = 2;
+            _directionFacing = 2;
         }
         else if (Input.GetAxisRaw("Horizontal") < 0)
         {
-            directionFacing = 3;
+            _directionFacing = 3;
         }
 
-        switch (directionFacing)
+        switch (_directionFacing)
         {
             case 0:
                 transform.rotation = Quaternion.Euler(0, 0, 0);
