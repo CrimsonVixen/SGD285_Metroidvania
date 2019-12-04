@@ -13,8 +13,8 @@ public class UIController : MonoBehaviour
     public GameObject infoPanel;
     public GameObject mainWeapon1Panel, isUsingMain1Panel;
     public GameObject mainWeapon2Panel, isUsingMain2Panel;
-    public GameObject rangedWeapon1Panel, isUsingRanged1panel;
-    public GameObject rangedWeapon2Panel, isUsingRanged2panel;
+    public GameObject rangedWeapon1Panel, isUsingRanged1Panel;
+    public GameObject rangedWeapon2Panel, isUsingRanged2Panel;
     public Text hpText;
     public Text endText;
     public Text displayText;
@@ -22,6 +22,9 @@ public class UIController : MonoBehaviour
     public float startHP = 154.15f;
     public int mainWeaponUsing = 1;
     public int rangedWeaponUsing = 1;
+    public bool main02Unlocked = false;
+    public bool ranged01Unlocked = false;
+    public bool ranged02Unlocked = false;
 
     void Start()
     {
@@ -29,6 +32,9 @@ public class UIController : MonoBehaviour
         creditsPanel.SetActive(false);
         endPanel.SetActive(false);
         infoPanel.SetActive(false);
+
+        isUsingMain1Panel.SetActive(false);
+        isUsingRanged1Panel.SetActive(true);
 
         // healthPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(health, healthPanel.GetComponent<RectTransform>().sizeDelta.y);
         // healthPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(startHP, healthPanel.GetComponent<RectTransform>().anchoredPosition.y);
@@ -39,9 +45,8 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M) && main02Unlocked)
         {
-            mainWeaponUsing *= -1;
             if (mainWeaponUsing == 1)
             {
                 isUsingMain1Panel.SetActive(true);
@@ -53,22 +58,23 @@ public class UIController : MonoBehaviour
                 isUsingMain2Panel.SetActive(true);
                 isUsingMain1Panel.SetActive(false);
             }
+            mainWeaponUsing *= -1;
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && ranged02Unlocked)
         {
-            rangedWeaponUsing *= -1;
             if (rangedWeaponUsing == 1)
             {
-                isUsingRanged1panel.SetActive(true);
-                isUsingRanged2panel.SetActive(false);
+                isUsingRanged1Panel.SetActive(true);
+                isUsingRanged2Panel.SetActive(false);
             }
             //else if (mainWeaponUsing )
             if (rangedWeaponUsing == -1)
             {
-                isUsingRanged2panel.SetActive(true);
-                isUsingRanged1panel.SetActive(false);
+                isUsingRanged2Panel.SetActive(true);
+                isUsingRanged1Panel.SetActive(false);
             }
+            rangedWeaponUsing *= -1;
         }
     }
 
@@ -102,6 +108,7 @@ public class UIController : MonoBehaviour
 
     public void ButtonClick()
     {
+        CancelInvoke();
         health -= 50;
         startHP -= 25;
         healthPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(health, healthPanel.GetComponent<RectTransform>().sizeDelta.y);
@@ -132,6 +139,8 @@ public class UIController : MonoBehaviour
         }
 
         Invoke("InfoText", 5);
+
+        main02Unlocked = true;
     }
 
     public void InfoText()
