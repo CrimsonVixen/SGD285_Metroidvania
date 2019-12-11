@@ -122,6 +122,17 @@ public class UIController : MonoBehaviour
             health -= 50;
             startHP -= 25;
             displayText.text += "You took 50 Damage" + '\n';
+            healthPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(health, healthPanel.GetComponent<RectTransform>().sizeDelta.y);
+            healthPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(startHP, healthPanel.GetComponent<RectTransform>().anchoredPosition.y);
+            print(healthPanel.GetComponent<RectTransform>().sizeDelta.x);
+            if (health <= 0)
+            {
+                health = 0;
+                endPanel.SetActive(true);
+                endText.text = "You lose ... get good";
+
+            }
+            hpText.text = health.ToString();
         }
         else if(num == 2)
         {
@@ -133,24 +144,14 @@ public class UIController : MonoBehaviour
         }
         else if (num == 4)
         {
-            displayText.text += "You collected a melee weapon. Press Q to switch." + '\n';
+            displayText.text += "You collected a melee weapon.\n Press Q to switch." + '\n';
         }
         else if (num == 5)
         {
-            displayText.text += "You collected a ranged weapon. Press E to switch" + '\n';
+            displayText.text += "You collected a ranged weapon.\n Press E to switch" + '\n';
         }
 
-        healthPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(health, healthPanel.GetComponent<RectTransform>().sizeDelta.y);
-        healthPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(startHP, healthPanel.GetComponent<RectTransform>().anchoredPosition.y);
-        print(healthPanel.GetComponent<RectTransform>().sizeDelta.x);
-        if (health <= 0)
-        {
-            health = 0;
-            endPanel.SetActive(true);
-            endText.text = "You lose ... get good";
-
-        }
-        hpText.text = health.ToString();
+        
 
         Invoke("InfoText", 5);
 

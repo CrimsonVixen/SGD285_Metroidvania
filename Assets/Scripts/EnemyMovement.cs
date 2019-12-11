@@ -7,10 +7,14 @@ public class EnemyMovement : MonoBehaviour
 {
     public bool searchingPlayer;
 
+    public Transform[] points;
+    public int destPoint = 1;
+
     public float searchTime = -4f;
     public float timeLastHit = 0f;
 
     public int health = 2;
+    int originalHealth;
 
     NavMeshAgent agent;
 
@@ -25,7 +29,9 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        NextPoint();
         player = GameObject.Find("Character");
+        originalHealth = health;
     }
 
     // Update is called once per frame
@@ -37,11 +43,21 @@ public class EnemyMovement : MonoBehaviour
         {
             SearchForPlayer();
         }
-        else agent.destination = transform.position;
 
         if(health <= 0)
         {
             Destroy(this.gameObject);
+
+            if (originalHealth == 10)
+            {
+                UIController.instance.endPanel.SetActive(true);
+                UIController.instance.endText.text = "YOU KILLED THE BOSS!!!!!";
+            }
+        }
+
+        if (!agent.pathPending && agent.remainingDistance < .5f)
+        {
+            NextPoint();
         }
     }
 
@@ -75,5 +91,16 @@ public class EnemyMovement : MonoBehaviour
 
             timeLastHit = Time.time;
         }
+    }
+
+    private void NextPoint()
+    {
+        if (points.Length == 0)
+        {
+            print("array failed");
+            return;
+        }
+        agent.destination = points[destPoint].position;
+        destPoint = (destPoint + 1) % points.Length;
     }
 }
