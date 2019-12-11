@@ -6,7 +6,11 @@ using UnityEngine.AI;
 public class EnemyMovement : MonoBehaviour
 {
     public bool searchingPlayer;
+
     public float searchTime = -4f;
+    public float timeLastHit = 0f;
+
+    public int health = 2;
 
     NavMeshAgent agent;
 
@@ -31,19 +35,21 @@ public class EnemyMovement : MonoBehaviour
 
         if (Time.time < searchTime + 3f)
         {
-            print("searching");
-            print("time = " + Time.time);
-            print("searchTime = " + searchTime);
             SearchForPlayer();
         }
         else agent.destination = transform.position;
+
+        if(health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void RaycastForPlayer()
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 3f))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 5f))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 3, Color.yellow);
 
@@ -59,5 +65,15 @@ public class EnemyMovement : MonoBehaviour
     void SearchForPlayer()
     {
         agent.destination = player.transform.position;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (Time.time > timeLastHit + 3f && other.tag == "Player")
+        {
+            UIController.instance.InfoUpdate(1);
+
+            timeLastHit = Time.time;
+        }
     }
 }

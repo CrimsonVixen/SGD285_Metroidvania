@@ -9,6 +9,13 @@ TagManager:
   - EastDoor
   - SouthDoor
   - WestDoor
+  - Bow
+  - Pistol
+  - Better Sword
+  - Enemy
+  - Tree
+  - Arrow
+  - Bullet
   layers:
   - Default
   - TransparentFX

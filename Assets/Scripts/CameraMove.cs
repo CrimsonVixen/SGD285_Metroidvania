@@ -6,7 +6,7 @@ public class CameraMove : MonoBehaviour
 {
     public float cameraMoveSpeed;
 
-    bool moveCam;
+    public bool moveCam;
 
     private void Awake()
     {
@@ -15,9 +15,9 @@ public class CameraMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //print("colliding with " + other.tag + ", moveCam = " + moveCam);
+        print("colliding with " + other.tag);
 
-        if (moveCam && other.tag != "Untagged")
+        if (moveCam && other.tag != "Untagged" && other.tag != "Arrow" && other.tag != "Bullet")
         {
             switch (other.tag)
             {
@@ -40,7 +40,9 @@ public class CameraMove : MonoBehaviour
             }
             moveCam = false;
 
-            Invoke("EnableMoveCam", 5f);
+            UIController.instance.displayText.text = "";
+
+            Invoke("EnableMoveCam", 2f);
         }
     }
 

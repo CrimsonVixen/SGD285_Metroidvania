@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    int directionFacing = 0;
+    public static PlayerMovement instance;
+
+    public int directionFacing = 0;
     /*0 = North,
      *1 = South,
      *2 = East,
@@ -14,17 +16,32 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject target;
 
+    public GameObject smallSword;
+    public GameObject bigSword;
+
+    public GameObject bow;
+    public GameObject pistol;
+
+    public GameObject arrow;
+    public GameObject bullet;
+
     private Rigidbody rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        instance = this;
     }
 
     private void Update()
     {
         FaceDirection();
         MoveToPoint();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack(UIController.instance.mainWeaponUsing, UIController.instance.rangedWeaponUsing, UIController.instance.recentlyEquipped);
+        }
 
         if (!Input.anyKey)
         {
@@ -74,6 +91,82 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "Bow":
+                UIController.instance.ranged01Unlocked = true;
+                UIController.instance.InfoUpdate(5);
+                Destroy(other.gameObject);
+                break;
+            case "Pistol":
+                UIController.instance.ranged02Unlocked = true;
+                UIController.instance.InfoUpdate(5);
+                Destroy(other.gameObject);
+                break;
+            case "Better Sword":
+                UIController.instance.main02Unlocked = true;
+                UIController.instance.InfoUpdate(4);
+                Destroy(other.gameObject);
+                break;
+            default:
+                //print("Collided with a non-weapon");
+                break;
+        }
+    }
+
+    void Attack(int mainWeapon, int rangedWeapon, string recent)
+    {
+        //print("attacking");
+        if (recent == "Main")
+        {
+            if(mainWeapon == 1)
+            {
+                smallSword.SetActive(true);
+                bigSword.SetActive(false);
+                pistol.SetActive(false);
+                bow.SetActive(false);
+
+                
+            }
+            else if(mainWeapon == -1)
+            {
+                smallSword.SetActive(false);
+                bigSword.SetActive(true);
+                pistol.SetActive(false);
+                bow.SetActive(false);
+
+
+            }
+        }
+        else if (recent == "Ranged")
+        {
+            if (rangedWeapon == 1)
+            {
+                pistol.SetActive(false);
+                bow.SetActive(true);
+                smallSword.SetActive(false);
+                bigSword.SetActive(false);
+
+                GameObject _arrow = Instantiate(arrow);
+
+                _arrow.SetActive(true);
+            }
+            else if (rangedWeapon == -1)
+            {
+                pistol.SetActive(true);
+                bow.SetActive(false);
+                smallSword.SetActive(false);
+                bigSword.SetActive(false);
+
+                GameObject _bullet = Instantiate(bullet);
+
+                _bullet.SetActive(true);
+            }
         }
     }
 }
