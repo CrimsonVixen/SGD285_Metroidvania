@@ -68554,7 +68554,7 @@ MonoBehaviour:
   health: 250
   startHP: 154.15
   mainWeaponUsing: 1
-  rangedWeaponUsing: -1
+  rangedWeaponUsing: 1
   recentlyEquipped: Main
   main02Unlocked: 1
   ranged01Unlocked: 1

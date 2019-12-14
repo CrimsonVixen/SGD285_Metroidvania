@@ -23,7 +23,7 @@ public class UIController : MonoBehaviour
     public int health = 250;
     public float startHP = 154.15f;
     public int mainWeaponUsing = 1;
-    public int rangedWeaponUsing = -1;
+    public int rangedWeaponUsing = 1;
     public string recentlyEquipped = "Main";
     public bool main02Unlocked = false;
     public bool ranged01Unlocked = false;
@@ -50,37 +50,62 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && main02Unlocked)
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             if (mainWeaponUsing == 1)
             {
-                isUsingMain1Panel.SetActive(true);
-                isUsingMain2Panel.SetActive(false);
+                if(main02Unlocked)
+                {
+                    mainWeaponUsing = -1;
+                    isUsingMain1Panel.SetActive(true);
+                    isUsingMain2Panel.SetActive(false);
+                }
             }
-            if (mainWeaponUsing == -1)
+            else if (mainWeaponUsing == -1)
             {
-                isUsingMain2Panel.SetActive(true);
                 isUsingMain1Panel.SetActive(false);
+                isUsingMain2Panel.SetActive(true);
+                mainWeaponUsing = 1;
             }
-            mainWeaponUsing *= -1;
             recentlyEquipped = "Main";
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && (ranged01Unlocked || ranged02Unlocked))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (rangedWeaponUsing == 1 && ranged01Unlocked)
             {
                 isUsingRanged1Panel.SetActive(true);
                 isUsingRanged2Panel.SetActive(false);
+                if (ranged02Unlocked)
+                {
+                    rangedWeaponUsing = -1;
+                }
+                recentlyEquipped = "Ranged";
             }
-            if (rangedWeaponUsing == -1 && ranged02Unlocked)
+            else if (rangedWeaponUsing == -1 && ranged02Unlocked)
             {
                 isUsingRanged2Panel.SetActive(true);
                 isUsingRanged1Panel.SetActive(false);
+                if (ranged01Unlocked) 
+                { 
+                rangedWeaponUsing = 1;
+                }
+                recentlyEquipped = "Ranged";
             }
-            rangedWeaponUsing *= -1;
-
-            recentlyEquipped = "Ranged";
+            else if (!ranged01Unlocked && ranged02Unlocked)
+            {
+                isUsingRanged2Panel.SetActive(false);
+                isUsingRanged1Panel.SetActive(true);
+                rangedWeaponUsing = -1;
+                recentlyEquipped = "Ranged";
+            }
+            else if (ranged01Unlocked && !ranged02Unlocked)
+            {
+                isUsingRanged2Panel.SetActive(true);
+                isUsingRanged1Panel.SetActive(false);
+                rangedWeaponUsing = 1;
+                recentlyEquipped = "Ranged";
+            }
         }
     }
 
@@ -137,11 +162,11 @@ public class UIController : MonoBehaviour
             }
             hpText.text = health.ToString();
         }
-        else if(num == 2)
+        else if (num == 2)
         {
             displayText.text += "You picked up a weapon" + '\n';
         }
-        else if(num == 3)
+        else if (num == 3)
         {
             displayText.text += "You hit an ememy" + '\n';
         }
@@ -152,6 +177,10 @@ public class UIController : MonoBehaviour
         else if (num == 5)
         {
             displayText.text += "You collected a ranged weapon.\n Press E to switch" + '\n';
+        }
+        else if (num == 6)
+        {
+            displayText.text += "This weapon can break trees.\n";
         }
         Invoke("InfoText", 5);
     }

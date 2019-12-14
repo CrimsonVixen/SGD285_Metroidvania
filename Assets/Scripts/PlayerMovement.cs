@@ -115,11 +115,13 @@ public class PlayerMovement : MonoBehaviour
             case "Pistol":
                 UIController.instance.ranged02Unlocked = true;
                 UIController.instance.InfoUpdate(5);
+                UIController.instance.InfoUpdate(6);
                 Destroy(other.gameObject);
                 break;
             case "Better Sword":
                 UIController.instance.main02Unlocked = true;
                 UIController.instance.InfoUpdate(4);
+                UIController.instance.InfoUpdate(6);
                 Destroy(other.gameObject);
                 break;
             default:
