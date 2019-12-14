@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Map_Brinstar.unity
+    guid: 078bdf1f4d755ec43b63378ff089eb4f
   m_configObjects: {}

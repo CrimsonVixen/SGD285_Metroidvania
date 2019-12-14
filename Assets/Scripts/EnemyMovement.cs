@@ -71,6 +71,7 @@ public class EnemyMovement : MonoBehaviour
 
             if (hit.collider.gameObject.name == "Character")
             {
+                agent.stoppingDistance = 1.5f;
                 agent.destination = player.transform.position;
                 searchingPlayer = true;
                 searchTime = Time.time;
@@ -97,7 +98,6 @@ public class EnemyMovement : MonoBehaviour
     {
         if (points.Length == 0)
         {
-            print("array failed");
             return;
         }
         agent.destination = points[destPoint].position;

@@ -13,11 +13,15 @@ public class PlayerMovement : MonoBehaviour
      *3 = West,*/
 
     public float speed;
+    public float rotateTime;
 
     public GameObject target;
 
     public GameObject smallSword;
     public GameObject bigSword;
+    public GameObject rotPoint;
+    public float rotSpeed;
+    public bool canMelee;
 
     public GameObject bow;
     public GameObject pistol;
@@ -31,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         instance = this;
+        canMelee = false;
     }
 
     private void Update()
@@ -38,9 +43,13 @@ public class PlayerMovement : MonoBehaviour
         FaceDirection();
         MoveToPoint();
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && canMelee)
         {
             Attack(UIController.instance.mainWeaponUsing, UIController.instance.rangedWeaponUsing, UIController.instance.recentlyEquipped);
+            StartCoroutine("MeleeRotate");
+            Invoke("StopMeleeRotate", rotateTime);
+
+            canMelee = false;
         }
 
         if (!Input.anyKey)
@@ -130,8 +139,6 @@ public class PlayerMovement : MonoBehaviour
                 bigSword.SetActive(false);
                 pistol.SetActive(false);
                 bow.SetActive(false);
-
-                
             }
             else if(mainWeapon == -1)
             {
@@ -139,8 +146,6 @@ public class PlayerMovement : MonoBehaviour
                 bigSword.SetActive(true);
                 pistol.SetActive(false);
                 bow.SetActive(false);
-
-
             }
         }
         else if (recent == "Ranged")
@@ -168,5 +173,36 @@ public class PlayerMovement : MonoBehaviour
                 _bullet.SetActive(true);
             }
         }
+    }
+
+    IEnumerator MeleeRotate()
+    {
+        while (true)
+        {
+            rotPoint.transform.Rotate(new Vector3(0, rotSpeed * Time.deltaTime, 0), Space.Self);
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
+    void StopMeleeRotate()
+    {
+        StopCoroutine("MeleeRotate");
+        canMelee = true; switch (directionFacing)
+        {
+            case 0:
+                rotPoint.transform.rotation = Quaternion.Euler(0, -30, 0);
+                break;
+            case 1:
+                rotPoint.transform.rotation = Quaternion.Euler(0, 150, 0);
+                break;
+            case 2:
+                rotPoint.transform.rotation = Quaternion.Euler(0, 60, 0);
+                break;
+            case 3:
+                rotPoint.transform.rotation = Quaternion.Euler(0, 240, 0);
+                break;
+        }
+        bigSword.SetActive(false);
+        smallSword.SetActive(false);
     }
 }

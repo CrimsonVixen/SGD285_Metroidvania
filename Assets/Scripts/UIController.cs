@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class UIController : MonoBehaviour
 {
@@ -88,6 +87,8 @@ public class UIController : MonoBehaviour
     {
         startPanel.SetActive(false);
         creditsPanel.SetActive(false);
+
+        PlayerMovement.instance.canMelee = true;
     }
 
     public void OnCreditsButtonClick()
