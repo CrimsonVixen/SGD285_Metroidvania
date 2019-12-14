@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -111,6 +112,7 @@ public class UIController : MonoBehaviour
     {
         endPanel.SetActive(false);
         startPanel.SetActive(true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void InfoUpdate(int num)

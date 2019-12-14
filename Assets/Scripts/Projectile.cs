@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
     public string moveDir = "North";
     public float speed;
     public int damage;
+    public float spawnTime = 1f;
 
     Vector3 north;
     Vector3 south;
@@ -45,7 +46,12 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();  
+        Move();
+        spawnTime = Time.deltaTime;
+        if (spawnTime >= 3)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void Move()
