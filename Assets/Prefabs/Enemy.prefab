@@ -90,7 +90,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4835583547851056831}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -108,8 +108,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   searchingPlayer: 0
+  points: []
+  destPoint: 1
   searchTime: -4
   timeLastHit: 0
+  health: 2
 --- !u!195 &4835583547851056817
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -41,14 +41,15 @@ public class Projectile : MonoBehaviour
         south = new Vector3(0, 0, -1);
         east = new Vector3(1, 0, 0);
         west = new Vector3(-1, 0, 0);
+
+        spawnTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
         Move();
-        spawnTime = Time.deltaTime;
-        if (spawnTime >= 3)
+        if ((spawnTime + 3) <= Time.time)
         {
             Destroy(this.gameObject);
         }
@@ -68,12 +69,10 @@ public class Projectile : MonoBehaviour
                 break;
             case "East":
                 transform.rotation = Quaternion.Euler(0, 90, 0);
-
                 transform.Translate(east * Time.deltaTime * speed, Space.World);
                 break;
             case "West":
                 transform.rotation = Quaternion.Euler(0, 270, 0);
-
                 transform.Translate(west * Time.deltaTime * speed, Space.World);
                 break;
             default:
