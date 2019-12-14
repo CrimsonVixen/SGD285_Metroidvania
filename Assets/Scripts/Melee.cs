@@ -13,7 +13,7 @@ public class Melee : MonoBehaviour
             other.GetComponent<EnemyMovement>().health -= damage;
             UIController.instance.InfoUpdate(3);
         }
-        else if (other.tag == "Tree" && this.damage > 2)
+        else if (other.tag == "DestructibleTree" && this.damage > 2)
         {
             Destroy(other.gameObject);
             print("melee collided with a tree");

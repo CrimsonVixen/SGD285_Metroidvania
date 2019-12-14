@@ -91,7 +91,7 @@ public class Projectile : MonoBehaviour
                 other.GetComponent<EnemyMovement>().health -= damage;
                 Destroy(this.gameObject);
                 break;
-            case "Tree":
+            case "DestructibleTree":
                 print("projectile with " + this.damage + " damage collided with a tree");
                 if(this.damage > 1)
                 {
