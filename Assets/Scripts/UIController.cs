@@ -153,12 +153,7 @@ public class UIController : MonoBehaviour
         {
             displayText.text += "You collected a ranged weapon.\n Press E to switch" + '\n';
         }
-
-        
-
         Invoke("InfoText", 5);
-
-        main02Unlocked = true;
     }
 
     public void InfoText()

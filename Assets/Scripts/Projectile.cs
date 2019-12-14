@@ -84,7 +84,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print(other.name);
         switch (other.tag)
         {
             case "Enemy":
@@ -93,6 +92,11 @@ public class Projectile : MonoBehaviour
                 Destroy(this.gameObject);
                 break;
             case "Tree":
+                print("projectile with " + this.damage + " damage collided with a tree");
+                if(this.damage > 1)
+                {
+                    Destroy(other.gameObject);
+                }
                 Destroy(this.gameObject);
                 break;
         }

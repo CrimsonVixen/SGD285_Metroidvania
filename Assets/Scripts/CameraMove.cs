@@ -48,7 +48,6 @@ public class CameraMove : MonoBehaviour
                     Invoke("EnableMoveCam", 2f);
                     break;
                 default:
-                    print("Collided with non-door object");
                     break;
             }
         }
